@@ -1,25 +1,29 @@
+%global real_name nullfsvfs
+
 # Build only the akmod package and no kernel module packages:
 %define buildforkernels akmod
 
 %global debug_package %{nil}
 
-Name:           nullfs-kmod
-Version:        0.22
+Name:           %{real_name}-kmod
+Version:        0.26
 Release:        1%{?dist}
 Summary:        A virtual file system that behaves like /dev/null
 License:        GPLv3+
-URL:            https://github.com/abbbi/nullfsvfs
+URL:            https://github.com/abbbi/%{real_name}
 
-Source0:        %{url}/archive/v%{version}.tar.gz#/nullfsvfs-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}.tar.gz#/%{real_name}-%{version}.tar.gz
 %if 0%{?rhel} == 9
 # https://github.com/abbbi/nullfsvfs/commit/63661607ded4e3ee0ba35cf50e1166a2b203daeb
-Patch0:     nullfs-el9.patch
+Patch0:         %{real_name}-el9.patch
 %endif
 
 # Get the needed BuildRequires (in parts depending on what we build for):
 BuildRequires:  kmodtool
 
 Provides:       %{name}-common == %{version}-%{release}
+
+%global AkmodsBuildRequires elfutils-libelf-devel, gcc-c++, kmodtool
 
 # kmodtool does its magic here:
 %{expand:%(kmodtool --target %{_target_cpu} --repo negativo17.org --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
@@ -39,11 +43,11 @@ testing with applications that require directory structures.
 # Print kmodtool output for debugging purposes:
 kmodtool  --target %{_target_cpu}  --repo negativo17.org --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null
 
-%autosetup -p1 -n nullfsvfs-%{version}
+%autosetup -p1 -n %{real_name}-%{version}
 
 for kernel_version in %{?kernel_versions}; do
   mkdir _kmod_build_${kernel_version%%___*}
-  cp -fr nullfs.c Makefile _kmod_build_${kernel_version%%___*}
+  cp -fr %{real_name}.c Makefile _kmod_build_${kernel_version%%___*}
 done
 
 %build
@@ -62,8 +66,8 @@ done
 %{?akmod_install}
 
 %changelog
-* Mon Feb 09 2026 Simone Caronni <negativo17@gmail.com> - 0.22-1
-- Update to 0.22.
+* Sun Mar 08 2026 Simone Caronni <negativo17@gmail.com> - 0.26-1
+- Rename to nullfsvfs and update to 0.26.
 
 * Mon Dec 01 2025 Simone Caronni <negativo17@gmail.com> - 0.21-1
 - Update to 0.21.

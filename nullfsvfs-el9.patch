@@ -1,0 +1,9 @@
+diff -Naur nullfsvfs-0.26.old/Makefile nullfsvfs-0.26/Makefile
+--- nullfsvfs-0.26.old/Makefile	2026-03-05 19:45:03.000000000 +0100
++++ nullfsvfs-0.26/Makefile	2026-03-08 16:43:42.187236416 +0100
+@@ -1,3 +1,5 @@
++EXTRA_CFLAGS += -Wno-incompatible-pointer-types
++
+ obj-m := nullfsvfs.o
+ 
+ all: ko
