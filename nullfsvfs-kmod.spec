@@ -6,7 +6,7 @@
 %global debug_package %{nil}
 
 Name:           %{real_name}-kmod
-Version:        0.26
+Version:        0.27
 Release:        1%{?dist}
 Summary:        A virtual file system that behaves like /dev/null
 License:        GPLv3+
@@ -66,6 +66,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Wed Jul 01 2026 Simone Caronni <negativo17@gmail.com> - 0.27-1
+- Update to 0.27.
+
 * Sun Mar 08 2026 Simone Caronni <negativo17@gmail.com> - 0.26-1
 - Rename to nullfsvfs and update to 0.26.
 
