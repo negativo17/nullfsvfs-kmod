@@ -17,6 +17,10 @@ Source0:        %{url}/archive/v%{version}.tar.gz#/%{real_name}-%{version}.tar.g
 # https://github.com/abbbi/nullfsvfs/commit/63661607ded4e3ee0ba35cf50e1166a2b203daeb
 Patch0:         %{real_name}-el9.patch
 %endif
+%if 0%{?rhel} == 10
+# EL 10.3+ backports the Linux 6.15 inode_operations->mkdir() change
+Patch1:         %{real_name}-el10.patch
+%endif
 
 # Get the needed BuildRequires (in parts depending on what we build for):
 BuildRequires:  kmodtool
@@ -68,6 +72,7 @@ done
 %changelog
 * Mon Nov 16 2026 Simone Caronni <negativo17@gmail.com> - 0.28-1
 - Update to 0.28.
+- Fix build on EL 10.3+.
 
 * Wed Jul 01 2026 Simone Caronni <negativo17@gmail.com> - 0.27-1
 - Update to 0.27.

@@ -1,0 +1,23 @@
+diff -Naur nullfsvfs-0.28.old/nullfsvfs.c nullfsvfs-0.28/nullfsvfs.c
+--- nullfsvfs-0.28.old/nullfsvfs.c	2026-11-16 17:53:15.000000000 +0100
++++ nullfsvfs-0.28/nullfsvfs.c	2026-11-16 18:16:53.806922110 +0100
+@@ -547,7 +547,8 @@
+   return error;
+ }
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0) || \
++    (defined(RHEL_RELEASE_CODE) && RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(10, 3))
+ static struct dentry *nullfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+                                    struct dentry *dentry, umode_t mode)
+ #elif LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0)
+@@ -572,7 +573,8 @@
+   if (!retval)
+     inc_nlink(dir);
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0) || \
++    (defined(RHEL_RELEASE_CODE) && RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(10, 3))
+   return ERR_PTR(retval);
+ #else
+   return retval;
